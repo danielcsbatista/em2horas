@@ -40,16 +40,12 @@ jobs:
     
       - name: Build da aplicação
         run: npm run build
+        env:
+          NODE_ENV: production
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./dist
-
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
