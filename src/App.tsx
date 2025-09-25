@@ -28,7 +28,7 @@ function App ()
 
   useEffect(() => {
 
-      const fetchTasks = async () => {
+    /*  const fetchTasks = async () => {
         try {
           const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10');
           setTasks(await response.json()); 
@@ -36,7 +36,7 @@ function App ()
           console.error('Error fetching tasks:', error);
         }
       }
-     // fetchTasks();
+     // fetchTasks();*/
   }, []);
 
   function onTaskChecked({id}: Task) {
