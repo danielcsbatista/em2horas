@@ -45,6 +45,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
+      - name: Verificar arquivos de configuração
+        run: |
+          echo "Arquivos de configuração encontrados:"
+          ls -la | grep cypress.config
+          # Remover conflitos - mantenha apenas o .ts
+          if [ -f "cypress.config.js" ]; then
+            rm cypress.config.js
+            echo "Removido cypress.config.js"
+          fi          
+
       - name: Instalar dependências
         run: npm ci
     
@@ -61,6 +71,7 @@ jobs:
           wait-on: 'http://localhost:5173'
           wait-on-timeout: 120
           browser: chrome
+          config-file: cypress.config.ts
           record: true
           parallel: false
         env:
