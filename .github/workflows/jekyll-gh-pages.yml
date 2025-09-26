@@ -69,11 +69,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload screenshots de falhas
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots
-          path: cypress/screenshots
+          path: cypress/screenshots/
+          retention-days: 7     
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
