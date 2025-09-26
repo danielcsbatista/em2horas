@@ -35,6 +35,16 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
+      - name: Cache dependências Cypress
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/Cypress
+            node_modules
+          key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
       - name: Instalar dependências
         run: npm ci
     
@@ -42,6 +52,28 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+      
+      - name: Executar testes Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm run dev
+          wait-on: 'http://localhost:5173'
+          wait-on-timeout: 120
+          browser: chrome
+          record: true
+          parallel: false
+        env:
+          CYPRESS_BASE_URL: http://localhost:5173
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload screenshots de falhas
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

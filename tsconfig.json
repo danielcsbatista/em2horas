@@ -3,5 +3,8 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "include": ["cypress.config.ts", "cypress/e2e/component/title.cy.ts" ],
+  "exclude": ["node_modules"]
+ 
 }
